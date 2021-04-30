@@ -16,7 +16,7 @@ function App() {
 		<Grid item xs={8}>
 			<PackageTable style={section}/>
 		</Grid>
-		<Grid item xs={4} alignItems="center" justify="center">
+		<Grid item xs={4}>
 			<PackageIndicator packageDetected={true} />
 		</Grid>
     </Grid>
