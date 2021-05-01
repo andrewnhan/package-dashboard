@@ -7,6 +7,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import ImageModal from './ImageModal'
+
+
 import './App.css';
 
 import {fromUnixTime, format} from 'date-fns'
@@ -59,7 +62,9 @@ const PackageTable = () => {
                 {row.packageDetected}
               </StyledTableCell>
               <StyledTableCell align="right">{row.timeString}</StyledTableCell>
-              <StyledTableCell align="right">{row.videoURL}</StyledTableCell>
+              <StyledTableCell align="right">
+				  <ImageModal />
+			  </StyledTableCell>
             </TableRow>
           ))}
         </TableBody>
