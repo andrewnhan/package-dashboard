@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '@material-ui/core/Table';
 import { withStyles } from "@material-ui/core/styles";
 import TableBody from '@material-ui/core/TableBody';
@@ -32,19 +32,27 @@ const StyledTableCell = withStyles(theme => ({
 function createData(packageDetected, time, videoURL) {
   const date = fromUnixTime(time)
   const timeString = format(date, 'HH:mm:ss MM/dd/yyyy')
-  console.log(timeString)
   return { packageDetected, timeString, videoURL };
 }
 
 
-const rows = [
-  createData('Detected!', 1619735043, "test1"),
-  createData('Detected!', 1619734323, "test2"),
-  createData('Detected!', 1615452443, "test3"),
-  createData('Detected!', 1615452443, "test3"),
-];
-
 const PackageTable = () => {
+  const [packageNotifications, setPackageNotifications] = useState([])
+
+  useEffect (() => {
+	setPackageNotifications([])
+	async function getPackages() {
+		let response = await fetch('https://getpackageblobs.azurewebsites.net/api/GetPackageBlobList?')
+		response = await response.json()
+		Object.keys(response).forEach(notification => {
+			setPackageNotifications(packageNotifications => [...packageNotifications, createData("Detected!", response[notification]?.upload_date, response[notification]?.url)]) 
+		})
+	}
+	getPackages()
+  }, []);
+
+  console.log(packageNotifications)
+
   return (
     <Paper style={{ paddingTop: 20, height: '100%' }} elevation={2}>
       <Table className="Package-table" aria-label="simple table">
@@ -56,14 +64,14 @@ const PackageTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {packageNotifications.map(row => (
             <TableRow key={row.videoURL}>
               <StyledTableCell scope="row">
                 {row.packageDetected}
               </StyledTableCell>
               <StyledTableCell align="right">{row.timeString}</StyledTableCell>
               <StyledTableCell align="right">
-				  <ImageModal />
+				  <ImageModal url={row.videoURL}/>
 			  </StyledTableCell>
             </TableRow>
           ))}
