@@ -40,8 +40,7 @@ const PackageTable = () => {
   const [packageNotifications, setPackageNotifications] = useState([])
 
   useEffect (() => {
-	setPackageNotifications([])
-	async function getPackages() {
+	  async function getPackages() {
 		let response = await fetch('https://getpackageblobs.azurewebsites.net/api/GetPackageBlobList?')
 		response = await response.json()
 		let unsorted = [];
@@ -53,6 +52,8 @@ const PackageTable = () => {
 		setPackageNotifications(sorted)
 	}
 	getPackages()
+
+	setInterval(() => { getPackages() }, 3000)
   }, []);
 
   console.log(packageNotifications)
