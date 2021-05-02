@@ -41,7 +41,7 @@ const PackageTable = () => {
 
   useEffect (() => {
 	  async function getPackages() {
-		let response = await fetch('https://cors-anywhere.herokuapp.com/https://getpackageblobs.azurewebsites.net/api/GetPackageBlobList?', {mode: 'cors'})
+		let response = await fetch('https://getpackageblobs.azurewebsites.net/api/GetPackageBlobList?', {mode: 'cors'})
 		response = await response.json()
 		let unsorted = [];
 		Object.keys(response).forEach(notification => {
