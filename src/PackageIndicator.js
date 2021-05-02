@@ -22,8 +22,8 @@ const PackageIndicator = ({packageNotifications}) => {
   useEffect (() => {
 	setAcked(packageNotifications.filter(notification => notification.ack === false).length === 0)
   }, [packageNotifications]);
-  const alert =  acked ? <Alert severity="success">Package Detected right now!</Alert> :
-  				 <Alert severity="error">Package not detected!</Alert> 
+  const alert =  acked ?  <Alert severity="error">Package not detected!</Alert> : <Alert severity="success">Package Detected right now!</Alert> 
+  				
   return (
     <div className={classes.root}>
       {alert}
