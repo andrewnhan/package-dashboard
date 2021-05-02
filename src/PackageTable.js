@@ -41,7 +41,7 @@ const PackageTable = () => {
 
   useEffect (() => {
 	  async function getPackages() {
-		let response = await fetch('https://getpackageblobs.azurewebsites.net/api/GetPackageBlobList?')
+		let response = await fetch('https://cors-anywhere.herokuapp.com/https://getpackageblobs.azurewebsites.net/api/GetPackageBlobList?', {mode: 'cors'})
 		response = await response.json()
 		let unsorted = [];
 		Object.keys(response).forEach(notification => {
@@ -55,8 +55,6 @@ const PackageTable = () => {
 
 	setInterval(() => { getPackages() }, 3000)
   }, []);
-
-  console.log(packageNotifications)
 
   return (
     <Paper style={{ paddingTop: 20, height: '100%' }} elevation={2}>
