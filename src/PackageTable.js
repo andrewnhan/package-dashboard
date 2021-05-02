@@ -32,7 +32,7 @@ const StyledTableCell = withStyles(theme => ({
 function createData(packageDetected, time, videoURL) {
   const date = fromUnixTime(time)
   const timeString = format(date, 'HH:mm:ss MM/dd/yyyy')
-  return { packageDetected, timeString, videoURL };
+  return { packageDetected, timeString, videoURL, time };
 }
 
 
@@ -44,9 +44,13 @@ const PackageTable = () => {
 	async function getPackages() {
 		let response = await fetch('https://getpackageblobs.azurewebsites.net/api/GetPackageBlobList?')
 		response = await response.json()
+		let unsorted = [];
 		Object.keys(response).forEach(notification => {
-			setPackageNotifications(packageNotifications => [...packageNotifications, createData("Detected!", response[notification]?.upload_date, response[notification]?.url)]) 
+			unsorted.push(createData("Detected!", response[notification]?.upload_date, response[notification]?.url))
 		})
+
+		let sorted = unsorted.sort((a, b) => (a.time < b.time) ? 1 : -1)
+		setPackageNotifications(sorted)
 	}
 	getPackages()
   }, []);

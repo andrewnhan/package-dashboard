@@ -14,8 +14,6 @@ export default function ImageModal({url}) {
     setOpen(false);
   };
 
-  console.log(url)
-
   return (
     <div>
       <button type="button" onClick={handleOpen}>
