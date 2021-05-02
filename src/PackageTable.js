@@ -40,12 +40,12 @@ const PackageTable = () => {
   const [packageNotifications, setPackageNotifications] = useState([])
 
   useEffect (() => {
-	  async function getPackages() {
-		let response = await fetch('https://getpackageblobs.azurewebsites.net/api/GetPackageBlobList?', {mode: 'cors'})
+	async function getPackages() {
+		let response = await fetch('https://getpackageblobs.azurewebsites.net/api/grabpackagefromdb', {mode: 'cors'})
 		response = await response.json()
 		let unsorted = [];
-		Object.keys(response).forEach(notification => {
-			unsorted.push(createData("Detected!", response[notification]?.upload_date, response[notification]?.url))
+		response.forEach(notification => {
+			unsorted.push(createData("Detected!", notification?.upload_date, notification?.url))
 		})
 
 		let sorted = unsorted.sort((a, b) => (a.time < b.time) ? 1 : -1)
