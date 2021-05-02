@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -15,10 +15,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PackageIndicator = ({packageDetected}) => {
+const PackageIndicator = ({packageNotifications}) => {
   const classes = useStyles();
 
-  const alert =  packageDetected ? <Alert severity="success">Package Detected right now!</Alert> :
+  const [acked, setAcked] = useState(false)
+  useEffect (() => {
+	setAcked(packageNotifications.filter(notification => notification.ack === false).length === 0)
+  }, [packageNotifications]);
+  const alert =  acked ? <Alert severity="success">Package Detected right now!</Alert> :
   				 <Alert severity="error">Package not detected!</Alert> 
   return (
     <div className={classes.root}>
